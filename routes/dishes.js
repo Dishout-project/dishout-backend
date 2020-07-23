@@ -3,14 +3,14 @@ let Dish = require("../models/dish.model");
 
 router.route("/").get((req, res) => {
     Dish.find()
-        .then(dishes=> res.json(dishes))
+        .then(dishes => res.json(dishes))
         .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/add").post((req, res) => {
-    const dishName = req.body.dishName;
+    const dish = req.body.dish;
 
-    const newDish = new Dish({dishName});
+    const newDish = new Dish({dish});
 
     newDish.save()
         .then(() => res.json("Dish added!"))
@@ -33,7 +33,7 @@ router.route("/:id").post((req, res) => {
     Dish.findById(req.params.id)
         .then(dish => {
             dish.dish = req.body.dish;
-            
+
             dish.save()
                 .then(() => res.json("Dish updated!"))
                 .catch(err => res.status(400).json("Error: " + err));
