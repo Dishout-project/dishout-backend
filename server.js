@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const environment = getEnvironment();
+
 
 require("dotenv").config();
 
@@ -11,7 +13,12 @@ console.log('port: ' + process.env.PORT)
 app.use(cors());
 app.use(express.json());
 
-const uri = 'mongodb://localhost:27017/myapp';
+
+const { host, db, db_port } = environment.mongo;
+const uri = `${host}:${db_port}/${db}`;
+
+
+
 console.log('uri: ' + uri)
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
 );
@@ -29,3 +36,13 @@ app.use("/dishes", dishesRouter);
 app.listen(port, () => {
     console.log("Server is running on port:", port);
 });
+
+
+function getEnvironment() {
+
+    if (process.env.NODE_ENV === 'production') {
+        return require("./environments/environment.prod")
+    } else {
+        return require("./environments/environment")
+    }
+}
