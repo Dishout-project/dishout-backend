@@ -1,4 +1,3 @@
-const { model, modelName } = require("../models/dish.model")
 
 function getEnvironment() {
 
@@ -8,5 +7,4 @@ function getEnvironment() {
         return require("./environment.dev")
     }
 }
-
 module.exports = getEnvironment();
