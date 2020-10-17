@@ -1,10 +1,12 @@
 module.exports = {
     production: false,
 
+    port: 5000,
+
     mongo: {
         host: "mongodb://localhost",
         db: "myapp",
-        db_port: 27017
-    }
+        port: 27017
+    },
 };
 

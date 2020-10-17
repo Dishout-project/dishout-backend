@@ -2,21 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require('morgan')
-
+const dishesRouter = require("./routes/dishes");
 const environment = require('./environments/environment.js');
 
 
-require("dotenv").config();
-
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || environment.port;
 
 app.use(morgan('combined'))
 app.use(cors());
 app.use(express.json());
 
 
-const { host, db, db_port } = environment.mongo;
+const { host, db, port: db_port } = environment.mongo;
 const uri = `${host}:${db_port}/${db}`;
 
 
@@ -30,7 +28,6 @@ connection.once("open", () => {
 })
 
 
-const dishesRouter = require("./routes/dishes");
 
 
 app.use("/dishes", dishesRouter);
