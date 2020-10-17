@@ -1,10 +1,12 @@
-module.exports = {
-    production: false,
+const { model, modelName } = require("../models/dish.model")
 
-    mongo: {
-        host: "mongodb://localhost",
-        db: "myapp",
-        db_port: 27017
+function getEnvironment() {
+
+    if (process.env.NODE_ENV === 'production') {
+        return require("./environment.prod")
+    } else {
+        return require("./environment.dev")
     }
-};
+}
 
+module.exports = getEnvironment();

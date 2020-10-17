@@ -1,15 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const environment = getEnvironment();
+const morgan = require('morgan')
+
+const environment = require('./environments/environment.js');
 
 
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-console.log('port: ' + process.env.PORT)
 
+app.use(morgan('combined'))
 app.use(cors());
 app.use(express.json());
 
@@ -30,6 +32,7 @@ connection.once("open", () => {
 
 const dishesRouter = require("./routes/dishes");
 
+
 app.use("/dishes", dishesRouter);
 
 
@@ -38,11 +41,4 @@ app.listen(port, () => {
 });
 
 
-function getEnvironment() {
 
-    if (process.env.NODE_ENV === 'production') {
-        return require("./environments/environment.prod")
-    } else {
-        return require("./environments/environment")
-    }
-}
