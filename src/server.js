@@ -9,14 +9,14 @@ const environment = require('./environments/environment.js');
 const app = express();
 const port = process.env.PORT || environment.port;
 
+console.log(`Production Environment: ${environment.production}`)
+
 app.use(morgan('combined'))
 app.use(cors());
 app.use(express.json());
 
 
-const { host, db, port: db_port } = environment.mongo;
-const uri = `${host}:${db_port}/${db}`;
-
+const uri = environment.mongo_endpoint;
 
 
 console.log('uri: ' + uri)
